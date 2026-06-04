@@ -1,11 +1,18 @@
 
 import pandas as pd
+from pathlib import Path
 
 from src.plotting import monthly_to_yearly
 
 
 def per_tj_to_per_twh(faktor_per_tj):
     return faktor_per_tj * 3600
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+OUTPUT_CSV = PROJECT_ROOT / "data" / "output_data"
+
+def save_df_to_csv(df, name):
+    df.to_csv(OUTPUT_CSV/f"{name}.csv", sep=";")
 
 # ==================================================
 # Calculating natural gas

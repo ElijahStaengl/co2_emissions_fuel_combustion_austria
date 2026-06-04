@@ -45,6 +45,9 @@ co2_calculated_oil_kt = calc.calculating_co2_from_oil_kt_final(oil_consumption_t
 
 co2_calculated_int_aviation_kt = calc.calculating_co2_from_int_aviation_kt(int_aviation_twh)
 
+calc.save_df_to_csv(co2_calculated_gas_kt, "co2_calculated_gas_kt")
+calc.save_df_to_csv(co2_calculated_oil_kt, "co2_calculated_oil_kt")
+calc.save_df_to_csv(co2_calculated_int_aviation_kt, "co2_calculated_int_aviation_kt")
 
 # ==================================================
 # Creating plots
