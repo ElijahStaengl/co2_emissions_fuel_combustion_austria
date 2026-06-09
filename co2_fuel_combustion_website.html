@@ -122,32 +122,30 @@ a:hover {
     
     <p>
         This website presents current CO₂ emissions from the combustion of liquid and gaseous fuels within the energy sector. 
-        The calculations presented are rough calculations using monthly fuel combustion activities and should present similar results to the CO₂ emissions from fuel combustion published in Austria's National Inventory Document.
+        The calculations use monthly fuel combustion statistics and are aligned with the CO₂ emissions from fuel combustion published in <a href="https://unfccc.int/sites/default/files/resource/AT_NID-2026.pdf" target="_blank">Austria's National Inventory Document</a>.
     </p>
     <p>
-        CO₂ emissions from these three categories are presented: Natural Gas, Oil Products and International Aviation.
+        CO₂ emissions from three categories are presented: Natural Gas, Oil Products and International Aviation.
     </p>
     <p>
         Emissions from natural gas are calculated from gas consumption data published by E-Control. The data is modified by subtracting gas used for non-energy purposes.
     </p>
     <p>
-        Emissions from oil products are calculated from consumption data published by Eurostat. 
-        The fuel types gasoil and dieseloil, fuel oil, liquified petroleum gas (LPG), gasolin and kerosene are used. 
-        Most of the kerosene, however, is accounted towards international aviation. To include missing consumption activities in the raw data, constant monthly CO₂ emissions of 240 tons are added.
+        Emissions from oil products are calculated from monthly consumption data published by Eurostat. The fuel types gasoil and dieseloil, fuel oil, liquified petroleum gas (LPG), gasolin and kerosene are included. Note that most of the kerosene is used for international aviation. To include missing consumption activities in the raw data, constant monthly CO₂ emissions of 240 tons are added.
     </p>
     <p>
-        CO₂ emissions from international aviation are calculated from 98.83% of kerosene consumption published in the dataset from Eurostat.
+        CO₂ emissions from international aviation are calculated as a share of 98.83% of kerosene consumption published in the Eurostat fuel consumption dataset.
     </p>
-    <p>
-        To receive more detailed information about the calculations, the code can be seen in a  
-        <a href="https://github.com/ElijahStaengl/co2_emissions_fuel_combustion_austria" target="_blank">
-        GitHub Repository
-    </a>. 
-        This project is part of the bachelor thesis from Elijah Stängl. A complete documentation of the methodology is available in the 
+	    A complete documentation of the methodology is available in the 
         <a href="https://test" target="_blank">
-        bachelor thesis
+        bachelor thesis of Elijah Stängl.
     </a>
-        available online.
+
+    <p>
+        The code can be accessed 
+        <a href="https://github.com/ElijahStaengl/co2_emissions_fuel_combustion_austria" target="_blank">
+        here
+    </a>. 
     </p>
 </header>
 
@@ -155,7 +153,7 @@ a:hover {
 
     <h2>Short-term trends of CO₂ emissions</h2>
 
-    <p>In the following graphs, the monthly CO₂ emissions from the current year and the three years before can be seen. The emissions are presented as monthly emissions on the left and as cumulative emissions on the right. 
+    <p>In the following figures, the monthly CO₂ emissions in the current year and the three previous years before are shown. The emissions are presented as monthly emissions on the left and as cumulative emissions on the right. 
     </p>
 
     <h3>Natural Gas</h3>
@@ -200,14 +198,14 @@ a:hover {
     <h2>Long-term trends of CO₂ emissions </h2>
 
     <p>
-        In the following graphs, the long-term trends of the calculated CO₂ emissions are shown. To better visualise the trends, the emissions are also shown as the average of the last 12 months.
-        All months of the past 12 years are shown in all figures. This means that one line consists of 144 values.
+        In the following figures, the long-term trends of the calculated CO₂ emissions are shown as monthly data points, and to better visualise  trends, also shown as the average over the last 12 months.
+        All months of the past 12 years are shown in the figures, implying that one line consists of 144 values.
     </p>
 
     <h3>Long-term trends of all calculated CO₂ emissions</h3>
 
     <p>
-        The category "Total" consists of the sum over all calculated CO₂ emissions from Oil Products, Natural Gas and International Aviation. It is important to mention that International Aviation is normally not accounted towards the emissions of the given country.
+        The category "Total" consists of the sum over all calculated CO₂ emissions from Oil Products, Natural Gas and International Aviation. Note that International Aviation is normally not accounted in the emissions of a specific country.
     </p>
 
     <div class="chart-row">
@@ -248,14 +246,14 @@ a:hover {
 </section>
 
 <footer>
-    More information about the methodology can be found in the
+    More information about the methodology can be found in the accompanying
     <a href="https://test" target="_blank">
         bachelor thesis
     </a>
     . 
-    The code can be seen in the 
+    The code is available
     <a href="https://github.com/ElijahStaengl/co2_emissions_fuel_combustion_austria" target="_blank">
-        GitHub Repository
+        here
     </a>
 </footer>
 
