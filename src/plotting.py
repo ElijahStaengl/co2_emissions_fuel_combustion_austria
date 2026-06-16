@@ -60,7 +60,7 @@ def text_source(sources="E-Control, Eurostat and Austria's NID/CRT 2026", latest
 COLOR4 = "#fec44f"
 COLOR3 = "#fe9929"
 COLOR2 = "#d95f0e"
-COLOR1 = "#993404"
+COLOR1 = "#049929"
 
 
 # ==================================================
