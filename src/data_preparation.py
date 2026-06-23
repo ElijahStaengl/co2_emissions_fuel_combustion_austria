@@ -13,6 +13,20 @@ def tj_to_twh(data_tj):
     return data_tj / 3600
 
 
+def validate_data(df):
+    df_values_everywhere = df[~(df == 0.0).any(axis=1)]
+
+    df_cleaned = df_values_everywhere.sort_index()
+
+    m = df_cleaned.index.to_period("M")
+
+    cutoff = pd.period_range(m.min(), m.max(), freq="M").difference(m).min()
+
+    if pd.notna(cutoff):
+        df_cleaned = df_cleaned[m < cutoff]
+    return df_cleaned
+
+
 # ==================================================
 # Preparing gas consumption
 # ==================================================
@@ -30,8 +44,9 @@ def preparing_gas_non_energy_twh_ncv(gas_for_ammonia_yearly_tj_ncv):
 def calculating_gas_for_combustion(raw_gas, raw_ammonia):
     """Returns gas calculated gas consumption used for combustion in twh and ncv"""
     relevant_gas_consumption = extracting_inlandgasconsumption_twh_ncv(raw_gas)
+    relevant_gas_consumption_cleaned = validate_data(relevant_gas_consumption)
     monthly_non_energy = preparing_gas_non_energy_twh_ncv(raw_ammonia)
-    gas_combustion_twh_ncv = relevant_gas_consumption - monthly_non_energy
+    gas_combustion_twh_ncv = relevant_gas_consumption_cleaned - monthly_non_energy
     gas_combustion_twh_ncv = gas_combustion_twh_ncv.rename(columns={"#99002_Inlandgasverbrauch": "gas_for_combustion"})
     return gas_combustion_twh_ncv
 
@@ -53,6 +68,7 @@ def selecting_relevant_fuel_types(oil_wide):
      "Heizöl_O4680"]].copy()
     selected_oil = selected_oil.loc['2013':]
     return selected_oil
+
 
 # All faktors in TJ/kt from NID 2026, Annex 3, Table A 67, Country specific conversion factor 2024
 TJ_PER_KT_GAS_AND_DIESEL_OIL = 42.5
@@ -92,7 +108,8 @@ def preparing_oil_combustion_and_int_aviation(raw_oil_kt, aviation_percent):
     """Returns two dataframes with consumption of oil products in twh. The first one is for the selected oil products and the second one for international aviation"""
     oil_wide = converting_oil_to_wide(raw_oil_kt)
     relevant_fuel_types_kt = selecting_relevant_fuel_types(oil_wide)
-    relevant_fuel_types_tj = converting_selected_oil_fuels_to_tj(relevant_fuel_types_kt)
+    relevant_fuel_types_kt_cleaned = validate_data(relevant_fuel_types_kt)
+    relevant_fuel_types_tj = converting_selected_oil_fuels_to_tj(relevant_fuel_types_kt_cleaned)
     relevant_fuel_types_twh = tj_to_twh(relevant_fuel_types_tj)
 
     int_aviation_decimal_constant = international_aviation_decimal_constant(aviation_percent)
