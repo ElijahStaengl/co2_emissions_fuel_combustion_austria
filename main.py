@@ -3,6 +3,7 @@ from src import load_data as ld
 from src import data_preparation as prep
 from src import calculations_co2 as calc
 from src import plotting as pl
+from src import saving as save
 import os
 
 os.makedirs("figures", exist_ok=True)
@@ -17,8 +18,10 @@ os.makedirs("data/output_data", exist_ok=True)
 # ==================================================
 
 raw_gas_consumption_mwh_gcv = ld.load_gas_consumption()
+save.save_input_df_to_csv(raw_gas_consumption_mwh_gcv, "input_gas")
 raw_gas_for_ammonia_tj_ncv = ld.load_gas_for_ammonia()
 raw_oil_consumption_kt = ld.load_oil_consumption()
+save.save_input_df_to_csv(raw_oil_consumption_kt, "input_oil")
 raw_aviation_percent = ld.load_aviation_percent()
 raw_1a_combustion = ld.load_crt_1a_combustion()
 raw_1d_international_aviation = ld.load_crt_1d_international_aviation()
@@ -49,9 +52,9 @@ co2_calculated_oil_kt = calc.calculating_co2_from_oil_kt_final(oil_consumption_t
 
 co2_calculated_int_aviation_kt = calc.calculating_co2_from_int_aviation_kt(int_aviation_twh)
 
-calc.save_df_to_csv(co2_calculated_gas_kt, "co2_calculated_gas_kt")
-calc.save_df_to_csv(co2_calculated_oil_kt, "co2_calculated_oil_kt")
-calc.save_df_to_csv(co2_calculated_int_aviation_kt, "co2_calculated_int_aviation_kt")
+save.save_output_df_to_csv(co2_calculated_gas_kt, "co2_calculated_gas_kt")
+save.save_output_df_to_csv(co2_calculated_oil_kt, "co2_calculated_oil_kt")
+save.save_output_df_to_csv(co2_calculated_int_aviation_kt, "co2_calculated_int_aviation_kt")
 
 # ==================================================
 # Creating plots
