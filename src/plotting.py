@@ -89,12 +89,17 @@ def style_difference(ax):
 
 def creating_combination_crt_and_calculations_yearly(calculated_co2_total, crt_co2):
     calculated_yearly = monthly_to_yearly(calculated_co2_total)
-    return crt_co2.join(calculated_yearly, how="inner")
+    return crt_co2.join(calculated_yearly, how="inner", lsuffix="1")
 
 def creating_difference_crt_and_calculations_yearly(calculated_co2_total, crt_co2):
     combination = creating_combination_crt_and_calculations_yearly(calculated_co2_total, crt_co2)
     difference_percent = ((combination.iloc[:, 1] - combination.iloc[:, 0]) / combination.iloc[:, 0]) * 100
     return difference_percent
+
+def sum_of_two_df(df1, df2):
+    return df1.join(df2, how="inner").sum(axis=1).to_frame()
+
+# --- Comparison ---
 
 def plotting_comparison_gas(calculated_co2_total, crt_co2):
     combination = creating_combination_crt_and_calculations_yearly(calculated_co2_total, crt_co2)
@@ -117,16 +122,23 @@ def plotting_comparison_int_aviation(calculated_co2_total, crt_co2):
     text_source("Eurostat and Austria's NID/CRT 2026")
     save_plot("comparison_int_aviation_lines.png", ax)
 
+def plotting_comparison_total(calculated_co2_total_oil, calculated_co2_gas, crt_co2_oil, crt_co2_gas):
+    oil_and_gas_calculated = sum_of_two_df(calculated_co2_total_oil, calculated_co2_gas)
+    oil_and_gas_crt = sum_of_two_df(crt_co2_oil, crt_co2_gas)
+    combination = creating_combination_crt_and_calculations_yearly(oil_and_gas_calculated, oil_and_gas_crt)
+    ax = combination.plot(title=f"Comparison of CO₂ Emissions from Oil Products and Natural Gas")
+    style_comparison(ax)
+    text_source()
+    save_plot("comparison_total_lines.png", ax)
+
+# --- Difference ---
+
 def plotting_difference_gas(calculated_co2_total, crt_co2):
     difference = creating_difference_crt_and_calculations_yearly(calculated_co2_total, crt_co2)
     ax = difference.plot(title="Calculated CO₂ from Natural Gas: Difference from CRT in Percent")
     style_difference(ax)
     text_source("E-Control and Austria's NID/CRT 2026")
     save_plot("difference_gas_percent.png", ax)
-
-def plotting_gas_accuracy(calculated_co2_total, crt_co2):
-    plotting_comparison_gas(calculated_co2_total, crt_co2)
-    plotting_difference_gas(calculated_co2_total, crt_co2)
 
 def plotting_difference_oil(calculated_co2_total, crt_co2):
     difference = creating_difference_crt_and_calculations_yearly(calculated_co2_total, crt_co2)
@@ -135,10 +147,6 @@ def plotting_difference_oil(calculated_co2_total, crt_co2):
     text_source("Eurostat and Austria's NID/CRT 2026")
     save_plot("difference_oil_percent.png", ax)
 
-def plotting_oil_accuracy(calculated_co2_total, crt_co2):
-    plotting_comparison_oil(calculated_co2_total, crt_co2)
-    plotting_difference_oil(calculated_co2_total, crt_co2)
-
 def plotting_difference_int_aviation(calculated_co2_total, crt_co2):
     difference = creating_difference_crt_and_calculations_yearly(calculated_co2_total, crt_co2)
     ax = difference.plot(title="Calculated CO₂ from International Aviation: Difference from CRT in Percent")
@@ -146,9 +154,34 @@ def plotting_difference_int_aviation(calculated_co2_total, crt_co2):
     text_source("Eurostat and Austria's NID/CRT 2026")
     save_plot("difference_int_aviation_percent.png", ax)
 
+def plotting_difference_total(calculated_co2_total_oil, calculated_co2_gas, crt_co2_oil, crt_co2_gas):
+    oil_and_gas_calculated = sum_of_two_df(calculated_co2_total_oil, calculated_co2_gas)
+    oil_and_gas_crt = sum_of_two_df(crt_co2_oil, crt_co2_gas)
+    difference = creating_difference_crt_and_calculations_yearly(oil_and_gas_calculated, oil_and_gas_crt)
+    ax = difference.plot(title="Calculated CO₂ from Oil Products and Natural Gas: Difference from CRT in Percent")
+    style_difference(ax)
+    text_source()
+    save_plot("difference_total_percent.png", ax)
+
+# --- Combination ---
+
+def plotting_gas_accuracy(calculated_co2_total, crt_co2):
+    plotting_comparison_gas(calculated_co2_total, crt_co2)
+    plotting_difference_gas(calculated_co2_total, crt_co2)
+
+def plotting_oil_accuracy(calculated_co2_total, crt_co2):
+    plotting_comparison_oil(calculated_co2_total, crt_co2)
+    plotting_difference_oil(calculated_co2_total, crt_co2)
+
 def plotting_int_aviation_accuracy(calculated_co2_total, crt_co2):
     plotting_comparison_int_aviation(calculated_co2_total, crt_co2)
     plotting_difference_int_aviation(calculated_co2_total, crt_co2)
+
+def plotting_total_accuracy(calculated_co2_total_oil, calculated_co2_gas, crt_co2_oil, crt_co2_gas):
+    plotting_comparison_total(calculated_co2_total_oil, calculated_co2_gas, crt_co2_oil, crt_co2_gas)
+    plotting_difference_total(calculated_co2_total_oil, calculated_co2_gas, crt_co2_oil, crt_co2_gas)
+
+# --- Uncorrected Oil ---
 
 def plotting_difference_oil_uncorrected(difference_uncorrected):
     ax = difference_uncorrected.plot(title="Uncorrected Calculated CO₂ from Oil Products: Difference from CRT")
