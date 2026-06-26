@@ -287,12 +287,12 @@ def adding_12m_mean(df):
 
 def merging_all_calculated_co2(co2_gas, co2_oil_all, co2_int_aviation):
     merged = co2_gas.join([co2_oil_all["total_oil_products"], co2_int_aviation], how="inner")
-    merged["total_calculated"] = merged.sum(axis=1)
+    merged["total_calculated"] = merged.iloc[:, :2].sum(axis=1)
     return merged
 
 def plot_all_longtime_together(df_normal_and_12m):
     ax = df_normal_and_12m.iloc[-months_to_show:, :].rename(
-        columns={"gas_for_combustion": "Gas", "total_oil_products": "Oil", "international_aviation_calculated": "Int. Aviation", "total_calculated": "Total"}
+        columns={"gas_for_combustion": "Gas", "total_oil_products": "Oil", "international_aviation_calculated": "Int. Aviation", "total_calculated": "Oil & Gas"}
         ).plot(ylim=(0,None))
     alpha_monthly = 0.65
     line_with_12m_mean = 2.5
@@ -341,7 +341,7 @@ def plot_all_longtime_separate(df_normal_and_12m):
     df_normal_and_12m["total_oil_products_12m"].iloc[-months_to_show:].plot(ax=axes[0,1], ylim=(0, None), xlabel=(""), title="Oil", color="tab:orange", alpha=(0.65))
     df_normal_and_12m["total_oil_products"].iloc[-months_to_show:].plot(ax=axes[0,1], xlabel=(""), color="tab:orange", linewidth=(2.5))
 
-    df_normal_and_12m["total_calculated_12m"].iloc[-months_to_show:].plot(ax=axes[0,0], ylim=(0, None), xlabel=(""), title="Total", color="tab:red", alpha=(0.65))
+    df_normal_and_12m["total_calculated_12m"].iloc[-months_to_show:].plot(ax=axes[0,0], ylim=(0, None), xlabel=(""), title="Oil & Gas", color="tab:red", alpha=(0.65))
     df_normal_and_12m["total_calculated"].iloc[-months_to_show:].plot(ax=axes[0,0], xlabel=(""), color="tab:red", linewidth=(2.5))
 
     df_normal_and_12m["international_aviation_calculated_12m"].iloc[-months_to_show:].plot(ax=axes[1,1], ylim=(0, None), xlabel=(""), title="Int. Aviation", color="tab:blue", alpha=(0.65))
